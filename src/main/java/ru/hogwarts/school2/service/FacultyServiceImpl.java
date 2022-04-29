@@ -1,5 +1,6 @@
 package ru.hogwarts.school2.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school2.model.Faculty;
 import ru.hogwarts.school2.repository.FacultyRepository;
@@ -11,6 +12,7 @@ public class FacultyServiceImpl implements FacultyService{
 
     private final FacultyRepository facultyRepository;
 
+    @Autowired
     public FacultyServiceImpl(FacultyRepository facultyRepository) {
         this.facultyRepository = facultyRepository;
     }
@@ -48,6 +50,13 @@ public class FacultyServiceImpl implements FacultyService{
     @Override
     public Collection<Faculty> allFaculty() {
         return facultyRepository.findAll();
+    }
+
+    @Override
+    public Faculty deleteByOleg(Long id) {
+        Faculty facultyToDeleteById = facultyRepository.getById(id);
+        facultyRepository.deleteById(id);
+        return facultyToDeleteById;
     }
 
 }
