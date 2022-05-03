@@ -1,5 +1,6 @@
 package ru.hogwarts.school2.controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school2.model.Faculty;
@@ -32,7 +33,7 @@ public class StudentController {
         if (studentCreate == null) {
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok(studentCreate);
+        return ResponseEntity.status(HttpStatus.CREATED).body(studentCreate);
     }
 
     @PutMapping
@@ -72,9 +73,31 @@ public class StudentController {
         return studentService.findFacultyOfStudent(studentId);
     }
 
-
     @GetMapping("all")
     public Collection<Student> allStudent() {
         return studentService.allStudent();
+    }
+
+    @GetMapping("total-number")
+    public ResponseEntity<Integer> getStudentsTotalNumber() {
+        Integer studentTotalNumber = studentService.studentsTotalNumber();
+        if (studentTotalNumber == null) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(studentTotalNumber);
+    }
+
+    @GetMapping("average-age")
+    public ResponseEntity<Integer> getStudentsAverageAge() {
+        Integer studentsAverageAge = studentService.studentsAverageAge();
+        if (studentsAverageAge == null) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(studentsAverageAge);
+    }
+
+    @GetMapping("last-five")
+    public Collection<Student> lastFiveStudents() {
+        return studentService.lastFiveStudents();
     }
 }

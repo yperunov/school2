@@ -5,6 +5,7 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.hogwarts.school2.model.Avatar;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
 
 public interface AvatarService {
@@ -12,4 +13,5 @@ public interface AvatarService {
 
     Avatar findAvatar(Long id);
 
+    Collection<Avatar> getAllAvatarsByPage(int page, int size);
 }

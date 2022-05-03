@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -52,6 +53,12 @@ public class AvatarServiceImpl implements AvatarService{
     @Override
     public Avatar findAvatar(Long id) {
         return avatarRepository.getById(id);
+    }
+
+    @Override
+    public Collection<Avatar> getAllAvatarsByPage(int page, int size) {
+        PageRequest pageRequest = PageRequest.of(page-1, size);
+        return avatarRepository.findAll(pageRequest).toList();
     }
 
 
