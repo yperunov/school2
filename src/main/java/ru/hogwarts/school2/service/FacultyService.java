@@ -20,4 +20,6 @@ public interface FacultyService {
 
     Collection<Faculty> allFaculty();
 
+    String longestFacultyName();
+
 }

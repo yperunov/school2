@@ -5,9 +5,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school2.model.Faculty;
+import ru.hogwarts.school2.model.Student;
 import ru.hogwarts.school2.repository.FacultyRepository;
 
 import java.util.Collection;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Stream;
 
 @Service
 public class FacultyServiceImpl implements FacultyService{
@@ -61,6 +65,16 @@ public class FacultyServiceImpl implements FacultyService{
     public Collection<Faculty> allFaculty() {
         logger.info("Was invoked method for finding all faculties");
         return facultyRepository.findAll();
+    }
+
+    @Override
+    public String longestFacultyName() {
+        logger.info("Was invoked method for finding longest name of all faculties");
+        List<Faculty> foundAll = facultyRepository.findAll();
+        return foundAll.stream()
+                .map(Faculty::getName)
+                .max(Comparator.comparingInt(String::length))
+                .orElse("Sorry, can't display longest faculty's name 'cause there's no faculties");
     }
 
 }
