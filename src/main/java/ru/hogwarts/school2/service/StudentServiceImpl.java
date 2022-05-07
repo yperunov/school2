@@ -8,6 +8,8 @@ import ru.hogwarts.school2.model.Student;
 import ru.hogwarts.school2.repository.StudentRepository;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -93,6 +95,27 @@ public class StudentServiceImpl implements StudentService {
     public Collection<Student> lastFiveStudents() {
         logger.info("Was invoked method for finding 5 last added students");
         return studentRepository.lastFiveStudents();
+    }
+
+    @Override
+    public Collection<String> sortedAZListOfAllStudedentsNames() {
+        logger.info("Was invoked method for finding AZ sorted names list of students in UPPER CASE");
+        List<Student> foundAll = studentRepository.findAll();
+        return foundAll.stream()
+                .map(Student::getName)
+                .map(String::toUpperCase)
+                .filter(s -> s.startsWith("А"))
+                .sorted()
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public double studentsAverageAgeStream() {
+        List<Student> foundAll = studentRepository.findAll();
+        return foundAll.stream()
+                .mapToInt(Student::getAge)
+                .average()
+                .orElse(0);
     }
 }
 
